@@ -5,8 +5,9 @@ include '../config/koneksi.php';
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$data = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
-$user = mysqli_fetch_assoc($data);
+$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+$stmt->execute([$email]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user) {
     if (password_verify($password, $user['password'])) {

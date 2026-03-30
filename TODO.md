@@ -1,28 +1,20 @@
-# Todo List Premium - Implementation TODO
+# TODO List Premium - Rencana Implementasi
 
-## Completed ✅
-- [x] Database schema created (users, kategori, tasks, reminders)
-- [x] Config/koneksi.php (PDO connection)
-- [x] Auth system (register, login, role separation, logout)
-- [x] CRUD operations (task/index.php, tambah.php, edit.php, hapus.php, selesai.php)
-- [x] Role dashboards (dashboard/siswa.php, dashboard/karyawan.php)
-- [x] Filters (subjects for siswa, projects/priority for karyawan)
-- [x] Statistics & charts (study/productivity)
-- [x] Responsive CSS (assets/style.css)
-- [x] JS interactions (AJAX CRUD, filters)
-- [x] Security (hashed passwords, prepared statements)
-- [x] Landing index.php
+## Status: Berjalan ✅
 
-## Completed ✅
-- [x] Register success notification ("Registrasi berhasil! Silakan login.")
-- [x] Error handling (duplicate email)
-- [x] All features + feedback fixes
+1. ✅ Perbaiki dasar: Update koneksi.php ke PDO + DB benar
+2. ~~Import/update DB schema~~ (manual via phpMyAdmin)
+3. ✅ Lengkapi & secure CRUD tasks (full fields, filter role-specific, UI)
+4. ✅ Tambah manajemen kategori (task/kategori.php + nav link)
+5. Implementasi filter tugas per role
+6. ✅ Tingkatkan dashboard siswa (jadwal, stat belajar)
+7. ✅ Tingkatkan dashboard karyawan (prioritas, stat produktivitas)
+8. Implementasi pengingat (CRUD + notif sim)
+9. ✅ Buat landing index.php
+10. UI/JS enhancements (charts, responsif)
+11. Testing & finalisasi
 
-## Final Steps
-1. Laragon start
-2. phpMyAdmin → Import config/database.sql to DB `manajemen_tugas`
-3. http://manajemen_tugas.test/
-4. Test register → see green alert on login.php → login
+**Progress: 5/11 selesai**
 
-Demo: `start http://localhost/manajemen_tugas/` ✅
+
 

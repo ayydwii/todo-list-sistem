@@ -1,7 +1,9 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "todo_list");
-
-if (!$conn) {
-    die("Koneksi gagal: " . mysqli_connect_error());
+try {
+    $pdo = new PDO("mysql:host=localhost;dbname=manajemen_tugas;charset=utf8", "root", "");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Koneksi gagal: " . $e->getMessage());
 }
 ?>
+

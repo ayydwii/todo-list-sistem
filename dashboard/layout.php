@@ -33,9 +33,10 @@ if (!isset($_SESSION['user'])) {
     <h4 class="text-center mb-4">Todo Premium</h4>
 
     <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-    <a href="../task/index.php"><i class="fas fa-list"></i> Tugas</a>
+<a href="../task/index.php"><i class="fas fa-list"></i> Tugas</a>
+    <a href="../task/kategori.php"><i class="fas fa-tags"></i> Kategori</a>
     <a href="#"><i class="fas fa-chart-bar"></i> Statistik</a>
-    <a href="#"><i class="fas fa-bell"></i> Reminder</a>
+    <a href="#"><i class="fas fa-bell"></i> Pengingat</a>
     <a href="../auth/logout.php" class="text-danger">
         <i class="fas fa-sign-out-alt"></i> Logout
     </a>
