@@ -2,33 +2,33 @@
 include 'layout.php';
 include '../config/koneksi.php';
 
-$user_id = $_SESSION['user']['id'];
+$id_user = $_SESSION['user']['id'];
 
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM tasks WHERE user_id=?");
-$stmt->execute([$user_id]);
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM tasks WHERE id_user=?");
+$stmt->execute([$id_user]);
 $total = $stmt->fetchColumn();
 
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM tasks WHERE user_id=? AND status='finished'");
-$stmt->execute([$user_id]);
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM tasks WHERE id_user=? AND status='finished'");
+$stmt->execute([$id_user]);
 $selesai = $stmt->fetchColumn();
 
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM tasks WHERE user_id=? AND status='unfinished'");
-$stmt->execute([$user_id]);
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM tasks WHERE id_user=? AND status='unfinished'");
+$stmt->execute([$id_user]);
 $belum = $stmt->fetchColumn();
 
 $persen = $total > 0 ? round(($selesai / $total) * 100) : 0;
 
 $stmt = $pdo->prepare("
     SELECT k.name, COUNT(t.id) as total, 
-           SUM(CASE WHEN t.status='finished' THEN 1 ELSE 0 END) as selesai
+        SUM(CASE WHEN t.status='finished' THEN 1 ELSE 0 END) as selesai
     FROM tasks t LEFT JOIN kategori k ON t.category_id = k.id 
-    WHERE t.user_id=? GROUP BY k.id ORDER BY total DESC LIMIT 5
+    WHERE t.id_user=? GROUP BY k.id ORDER BY total DESC LIMIT 5
 ");
-$stmt->execute([$user_id]);
+$stmt->execute([$id_user]);
 $per_kategori = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $tasks_terbaru = $pdo->prepare("SELECT t.*, k.name as kategori FROM tasks t LEFT JOIN kategori k ON t.category_id = k.id WHERE t.user_id=? ORDER BY t.created_at DESC LIMIT 5");
-$tasks_terbaru->execute([$user_id]);
+$tasks_terbaru->execute([$id_user]);
 $tasks_terbaru = $tasks_terbaru->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
