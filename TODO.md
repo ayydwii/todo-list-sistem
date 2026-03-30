@@ -9,7 +9,7 @@
 5. Implementasi filter tugas per role
 6. ✅ Tingkatkan dashboard siswa (jadwal, stat belajar)
 7. ✅ Tingkatkan dashboard karyawan (prioritas, stat produktivitas)
-8. Implementasi pengingat (CRUD + notif sim)
+
 9. ✅ Buat landing index.php
 10. UI/JS enhancements (charts, responsif)
 11. Testing & finalisasi
