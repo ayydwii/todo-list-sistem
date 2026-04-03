@@ -46,7 +46,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="d-flex justify-content-between mb-3">
         <h3>Daftar Tugas</h3>
-        <a href="tambah.php" class="btn btn-success">+ Tambah</a>
+<a href="tambah_new.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Tugas</a>
     </div>
 
     <!-- FILTER -->
@@ -72,11 +72,11 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <?php if($role == 'karyawan'): ?>
         <div class="col-md-3">
-            <select name="priority" class="form-select">
+        <select name="priority" class="form-select">
                 <option value="">Semua Prioritas</option>
-                <option value="low" <?= $filter_priority=='low'?'selected':'' ?>>Low</option>
-                <option value="medium" <?= $filter_priority=='medium'?'selected':'' ?>>Medium</option>
-                <option value="high" <?= $filter_priority=='high'?'selected':'' ?>>High</option>
+                <option value="low" <?= $filter_priority=='low'?'selected':'' ?>>Rendah</option>
+                <option value="medium" <?= $filter_priority=='medium'?'selected':'' ?>>Sedang</option>
+                <option value="high" <?= $filter_priority=='high'?'selected':'' ?>>Tinggi</option>
             </select>
         </div>
         <?php endif; ?>
@@ -114,7 +114,9 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </td>
 
                         <?php if($role=='karyawan'): ?>
-                        <td><?= ucfirst($t['priority']) ?></td>
+                        <td><span class="badge bg-<?= $t['priority']==='high' ? 'danger' : ($t['priority']==='medium' ? 'warning' : 'success') ?>">
+                            <?= $t['priority']==='low' ? 'Rendah' : ($t['priority']==='medium' ? 'Sedang' : 'Tinggi') ?>
+                        </span></td>
                         <?php endif; ?>
 
                         <td><span class="badge bg-info"><?= date('d/m/Y H:i', strtotime($t['deadline'])) ?></span></td>
@@ -130,7 +132,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php if($t['status']=='unfinished'): ?>
                             <a href="selesai.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
                             <?php endif; ?>
-                            <a href="hapus.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus?')"><i class="fas fa-trash"></i></a>
+onclick="return confirm('Yakin hapus tugas ini?')"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

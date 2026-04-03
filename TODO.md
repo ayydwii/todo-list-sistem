@@ -1,13 +1,10 @@
-# Rencana Perbaikan Halaman Dashboard dan Task
+# Task Progress: Perbaiki tampilan task/index.php agar sama seperti dashboard
 
-## Status: Belum Dimulai
+## TODO Steps:
+- [x] Analyze files and create edit plan
+- [x] Get user approval for plan  
+- [x] Step 1: Edit task/content_index.php (enhance table styling)
+- [x] Step 2: Refactor task/index.php to use dashboard layout + include content_index.php
+- [ ] Step 3: Test in browser
+- [ ] Step 4: Complete task
 
-### Langkah-langkah:
-- [x] 1. Prototype task/index_new.php OK dengan layout + improved UI
-- [ ] 2. Edit task/tambah.php: Sama seperti langkah 1
-- [ ] 3. Edit task/edit.php: Sama seperti langkah 1
-- [ ] 4. Edit task/kategori.php: Sama seperti langkah 1
-- [ ] 5. Edit task/selesai.php: Sama seperti langkah 1  
-- [ ] 6. Edit task/hapus.php: Sama seperti langkah 1
-- [ ] 7. Test semua halaman task: Verifikasi sidebar, warna sama, responsif
-- [ ] 8. Complete task

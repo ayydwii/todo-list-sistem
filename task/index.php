@@ -1,151 +1,68 @@
-<?php
+<?php 
 session_start();
+
+// 🔒 Cek apakah user sudah login
+if (!isset($_SESSION['user'])) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
 include '../config/koneksi.php';
-
-$user_id = $_SESSION['user']['id_user'];
-$role = $_SESSION['user']['role'];
-
-// Ambil kategori
-$kategori = $pdo->query("SELECT * FROM categories ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
-
-// Filter
-$where = "t.user_id = ?";
-$params = [$user_id];
-
-$filter_category = $_GET['kategori'] ?? '';
-$filter_status = $_GET['status'] ?? '';
-$filter_priority = $_GET['priority'] ?? '';
-
-if ($filter_category) {
-    $where .= " AND t.category_id = ?";
-    $params[] = $filter_category;
-}
-
-if ($filter_status) {
-    $where .= " AND t.status = ?";
-    $params[] = $filter_status;
-}
-
-if ($filter_priority && $role == 'karyawan') {
-    $where .= " AND t.priority = ?";
-    $params[] = $filter_priority;
-}
-
-$stmt = $pdo->prepare("
-    SELECT t.*, k.name as kategori, k.color 
-    FROM tasks t 
-    LEFT JOIN categories k ON t.category_id = k.id 
-    WHERE $where 
-    ORDER BY t.deadline ASC
-");
-
-$stmt->execute($params);
-$tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Daftar Tugas</title>
+    <title>Task Management</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+<body>
 
-<body class="bg-light">
-<div class="container mt-4">
+<!-- HAMBURGER BUTTON (TOP LEFT FIXED) -->
+<button class="hamburger" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+</button>
 
-    <div class="d-flex justify-content-between mb-3">
-        <h3>Daftar Tugas</h3>
-        <a href="tambah.php" class="btn btn-success">+ Tambah</a>
-    </div>
+<!-- SIDEBAR -->
+<div class="sidebar p-3" id="sidebar">
+    <h4 class="text-center mb-4">Todo Premium</h4>
 
-    <!-- FILTER -->
-    <form method="GET" class="row mb-3">
-        <div class="col-md-3">
-            <select name="kategori" class="form-select">
-                <option value="">Semua Kategori</option>
-                <?php foreach($kategori as $kat): ?>
-                    <option value="<?= $kat['id'] ?>" <?= $filter_category == $kat['id'] ? 'selected' : '' ?>>
-                        <?= $kat['name'] ?>
-                    </option>
-                <?php endforeach ?>
-            </select>
+    <a href="../dashboard/siswa.php"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="index.php" class="active"><i class="fas fa-list"></i> Tugas</a>
+    <a href="kategori.php"><i class="fas fa-tags"></i> Kategori</a>
+    <a href="#"><i class="fas fa-chart-bar"></i> Statistik</a>
+    <a href="reminders/"><i class="fas fa-bell"></i> Pengingat</a>
+    <a href="../auth/logout.php" class="text-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-light bg-white shadow-sm mb-4 rounded">
+        <div class="container-fluid">
+            <button class="navbar-toggler me-3 d-md-none" type="button" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span class="navbar-brand mb-0 h1">
+                Daftar Tugas
+            </span>
         </div>
+    </nav>
 
-        <div class="col-md-3">
-            <select name="status" class="form-select">
-                <option value="">Semua Status</option>
-                <option value="unfinished" <?= $filter_status=='unfinished'?'selected':'' ?>>Belum</option>
-                <option value="finished" <?= $filter_status=='finished'?'selected':'' ?>>Selesai</option>
-            </select>
-        </div>
-
-        <?php if($role == 'karyawan'): ?>
-        <div class="col-md-3">
-            <select name="priority" class="form-select">
-                <option value="">Semua Prioritas</option>
-                <option value="low" <?= $filter_priority=='low'?'selected':'' ?>>Low</option>
-                <option value="medium" <?= $filter_priority=='medium'?'selected':'' ?>>Medium</option>
-                <option value="high" <?= $filter_priority=='high'?'selected':'' ?>>High</option>
-            </select>
-        </div>
-        <?php endif; ?>
-
-        <div class="col-md-3">
-            <button class="btn btn-primary w-100">Filter</button>
-        </div>
-    </form>
-
-    <!-- TABEL -->
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Judul</th>
-                <th>Kategori</th>
-                <?php if($role=='karyawan'): ?><th>Prioritas</th><?php endif; ?>
-                <th>Deadline</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-
-        <tbody>
-        <?php if($tasks): ?>
-            <?php foreach($tasks as $t): ?>
-            <tr>
-                <td><?= htmlspecialchars($t['title']) ?></td>
-
-                <td>
-                    <?= $t['kategori'] 
-                        ? "<span style='color:$t[color]'>$t[kategori]</span>" 
-                        : 'Umum' ?>
-                </td>
-
-                <?php if($role=='karyawan'): ?>
-                <td><?= $t['priority'] ?></td>
-                <?php endif; ?>
-
-                <td><?= $t['deadline'] ?></td>
-
-                <td>
-                    <?= $t['status']=='finished' 
-                        ? '<span class="badge bg-success">Selesai</span>' 
-                        : '<span class="badge bg-warning">Belum</span>' ?>
-                </td>
-
-                <td>
-                    <a href="edit.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
-                    <a href="hapus.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-danger">Hapus</a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="6" class="text-center">Belum ada data</td>
-            </tr>
-        <?php endif; ?>
-        </tbody>
-    </table>
+    <?php include 'content_index.php'; ?>
 
 </div>
+
+<script src="../assets/js/app.js"></script>
 </body>
 </html>
