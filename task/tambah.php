@@ -5,7 +5,7 @@ include '../config/koneksi.php';
 $role = $_SESSION['user']['role'];
 $user_id = $_SESSION['user']['id'];
 
-$kategori = $pdo->query("SELECT * FROM kategori ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+$kategori = $pdo->query("SELECT * FROM categories ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_POST['submit'])) {
     $title = $_POST['title'];

@@ -1,6 +1,5 @@
 <?php
-session_start();
-include '../config/koneksi.php';
+// Content for task/index.php - original content wrapped
 
 $user_id = $_SESSION['user']['id_user'];
 $role = $_SESSION['user']['role'];
@@ -43,14 +42,6 @@ $stmt->execute($params);
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Daftar Tugas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body class="bg-light">
 <div class="container mt-4">
 
     <div class="d-flex justify-content-between mb-3">
@@ -96,56 +87,64 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </form>
 
     <!-- TABEL -->
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Judul</th>
-                <th>Kategori</th>
-                <?php if($role=='karyawan'): ?><th>Prioritas</th><?php endif; ?>
-                <th>Deadline</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
+    <div class="card shadow">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Judul</th>
+                        <th>Kategori</th>
+                        <?php if($role=='karyawan'): ?><th>Prioritas</th><?php endif; ?>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
 
-        <tbody>
-        <?php if($tasks): ?>
-            <?php foreach($tasks as $t): ?>
-            <tr>
-                <td><?= htmlspecialchars($t['title']) ?></td>
+                <tbody>
+                <?php if($tasks): ?>
+                    <?php foreach($tasks as $t): ?>
+                    <tr class="priority-<?= $t['priority'] ?>">
+                        <td><?= htmlspecialchars($t['title']) ?></td>
 
-                <td>
-                    <?= $t['kategori'] 
-                        ? "<span style='color:$t[color]'>$t[kategori]</span>" 
-                        : 'Umum' ?>
-                </td>
+                        <td>
+                            <?= $t['kategori'] 
+                                ? "<span style='color:$t[color]'>$t[kategori]</span>" 
+                                : 'Umum' ?>
+                        </td>
 
-                <?php if($role=='karyawan'): ?>
-                <td><?= $t['priority'] ?></td>
+                        <?php if($role=='karyawan'): ?>
+                        <td><?= ucfirst($t['priority']) ?></td>
+                        <?php endif; ?>
+
+                        <td><span class="badge bg-info"><?= date('d/m/Y H:i', strtotime($t['deadline'])) ?></span></td>
+
+                        <td>
+                            <?= $t['status']=='finished' 
+                                ? '<span class="badge bg-success">Selesai</span>' 
+                                : '<span class="badge bg-warning text-dark">Belum</span>' ?>
+                        </td>
+
+                        <td>
+                            <a href="edit.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                            <?php if($t['status']=='unfinished'): ?>
+                            <a href="selesai.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
+                            <?php endif; ?>
+                            <a href="hapus.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus?')"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="<?= $role=='karyawan' ? '6' : '5' ?>" class="text-center py-4">
+                            <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Belum ada tugas</p>
+                        </td>
+                    </tr>
                 <?php endif; ?>
-
-                <td><?= $t['deadline'] ?></td>
-
-                <td>
-                    <?= $t['status']=='finished' 
-                        ? '<span class="badge bg-success">Selesai</span>' 
-                        : '<span class="badge bg-warning">Belum</span>' ?>
-                </td>
-
-                <td>
-                    <a href="edit.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
-                    <a href="hapus.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-danger">Hapus</a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="6" class="text-center">Belum ada data</td>
-            </tr>
-        <?php endif; ?>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
-</body>
-</html>

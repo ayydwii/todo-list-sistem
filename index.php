@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <img src="https://img.freepik.com/free-vector/gradient-dashboard-interface_23-214902269.jpg?w=740&t=st=1724631419~exp=1724632019~hmac=8b28e2d7f5c5f9d1b6c3e6f4b0d8a5f1e8e6d9c4a2b3c5d7e9f0a1b2c3d4e5f" alt="Dashboard Preview" class="img-fluid rounded shadow-lg" style="max-height: 500px;">
+                    <img src="" alt="Dashboard Preview" class="img-fluid rounded shadow-lg" style="max-height: 500px;">
                 </div>
             </div>
         </div>

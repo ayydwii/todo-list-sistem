@@ -5,7 +5,7 @@ include '../config/koneksi.php';
 $user_id = $_SESSION['user']['id'];
 $id = $_GET['id'];
 
-$stmt = $pdo->prepare("SELECT * FROM tasks t LEFT JOIN kategori k ON t.category_id = k.id WHERE t.id = ? AND t.user_id = ?");
+$stmt = $pdo->prepare("SELECT * FROM tasks t LEFT JOIN categories k ON t.category_id = k.id WHERE t.id = ? AND t.user_id = ?");
 $stmt->execute([$id, $user_id]);
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -15,7 +15,7 @@ if (!$data) {
 }
 
 $role = $_SESSION['user']['role'];
-$kategori = $pdo->query("SELECT * FROM kategori ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+$kategori = $pdo->query("SELECT * FROM categories ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_POST['update'])) {
     $title = $_POST['title'];

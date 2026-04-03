@@ -21,13 +21,13 @@ $persen = $total > 0 ? round(($selesai / $total) * 100) : 0;
 $stmt = $pdo->prepare("
     SELECT k.name, COUNT(t.id) as total, 
         SUM(CASE WHEN t.status='finished' THEN 1 ELSE 0 END) as selesai
-    FROM tasks t LEFT JOIN kategori k ON t.category_id = k.id 
+    FROM tasks t LEFT JOIN categories k ON t.category_id = k.id 
     WHERE t.id_user=? GROUP BY k.id ORDER BY total DESC LIMIT 5
 ");
 $stmt->execute([$id_user]);
 $per_kategori = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$tasks_terbaru = $pdo->prepare("SELECT t.*, k.name as kategori FROM tasks t LEFT JOIN kategori k ON t.category_id = k.id WHERE t.user_id=? ORDER BY t.created_at DESC LIMIT 5");
+$tasks_terbaru = $pdo->prepare("SELECT t.*, k.name as categories FROM tasks t LEFT JOIN categories k ON t.category_id = k.id WHERE t.user_id=? ORDER BY t.created_at DESC LIMIT 5");
 $tasks_terbaru->execute([$id_user]);
 $tasks_terbaru = $tasks_terbaru->fetchAll(PDO::FETCH_ASSOC);
 ?>

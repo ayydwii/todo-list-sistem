@@ -26,7 +26,7 @@ if (isset($_GET['hapus'])) {
     $stmt->execute([$id]);
 }
 
-$kategori = $pdo->query("SELECT * FROM kategori ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+$kategori = $pdo->query("SELECT * FROM categories ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>

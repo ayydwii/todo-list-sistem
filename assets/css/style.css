@@ -38,9 +38,9 @@ body {
 }
 
 .sidebar a:hover, .sidebar a.active {
-    background: rgba(255,255,255,0.1);
+    background: rgba(79,140,255,0.2);
     color: white;
-    border-left-color: #3b82f6;
+    border-left-color: #4F8CFF;
     transform: translateX(5px);
 }
 
@@ -48,6 +48,7 @@ body {
     width: 20px;
     margin-right: 1rem;
     font-size: 1.1rem;
+    color: #4F8CFF;
 }
 
 .content {
@@ -89,12 +90,14 @@ body {
 }
 
 .btn:hover {
+    background: #4F8CFF !important;
+    color: white !important;
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(79,140,255,0.4);
 }
 
 .table-hover tbody tr:hover {
-    background-color: rgba(59,130,246,0.05);
+    background-color: rgba(79,140,255,0.08);
 }
 
 .priority-high { border-left: 4px solid #ef4444 !important; }
@@ -121,11 +124,34 @@ body {
 }
 
 .hamburger {
-    display: none;
+    display: block;
     background: none;
     border: none;
     font-size: 1.5rem;
     color: #1e293b;
+    z-index: 1001;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.hamburger:hover {
+    background: rgba(30, 41, 59, 0.1);
+    transform: scale(1.1);
+}
+
+@media (min-width: 769px) {
+    .hamburger {
+        display: none;
+    }
+}
+
+.sidebar {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Landing page specific */
@@ -141,6 +167,21 @@ body {
 .feature-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+}
+
+/* Aksen warna utama */
+.icon {
+    color: #4F8CFF;
+}
+
+::selection {
+    background: #4F8CFF;
+    color: white;
+}
+
+*:focus-visible {
+    outline: 2px solid #4F8CFF;
+    outline-offset: 2px;
 }
 
 /* Dark mode support */

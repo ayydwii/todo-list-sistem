@@ -2,7 +2,7 @@
 include 'layout.php';
 include '../config/koneksi.php';
 
-$user_id = $_SESSION['user']['id'];
+$user_id = $_SESSION['user']['id_user'];
 
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM tasks WHERE user_id=?");
 $stmt->execute([$user_id]);
@@ -37,15 +37,15 @@ $ontime_persen = $selesai > 0 ? round(($ontime_data['ontime'] / $selesai) * 100)
 // Per project
 $stmt = $pdo->prepare("
     SELECT k.name, COUNT(t.id) as total, 
-           SUM(CASE WHEN t.status='finished' THEN 1 ELSE 0 END) as selesai,
-           AVG(CASE WHEN t.status='finished' AND t.deadline >= t.created_at THEN 1 ELSE 0 END)*100 as ontime_pct
-    FROM tasks t LEFT JOIN kategori k ON t.category_id = k.id 
+            SUM(CASE WHEN t.status='finished' THEN 1 ELSE 0 END) as selesai,
+            AVG(CASE WHEN t.status='finished' AND t.deadline >= t.created_at THEN 1 ELSE 0 END)*100 as ontime_pct
+    FROM tasks t LEFT JOIN categories k ON t.category_id = k.id 
     WHERE t.user_id=? GROUP BY k.id ORDER BY total DESC LIMIT 5
 ");
 $stmt->execute([$user_id]);
 $per_project = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$tasks_terbaru = $pdo->prepare("SELECT t.*, k.name as kategori, k.color FROM tasks t LEFT JOIN kategori k ON t.category_id = k.id WHERE t.user_id=? ORDER BY t.priority DESC, t.deadline ASC LIMIT 5");
+$tasks_terbaru = $pdo->prepare("SELECT t.*, k.name as categories, k.color FROM tasks t LEFT JOIN categories k ON t.category_id = k.id WHERE t.user_id=? ORDER BY t.priority DESC, t.deadline ASC LIMIT 5");
 $tasks_terbaru->execute([$user_id]);
 $tasks_terbaru = $tasks_terbaru->fetchAll(PDO::FETCH_ASSOC);
 ?>

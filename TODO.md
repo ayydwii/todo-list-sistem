@@ -1,20 +1,13 @@
-# TODO List Premium - Rencana Implementasi
+# Rencana Perbaikan Halaman Dashboard dan Task
 
-## Status: Berjalan ✅
+## Status: Belum Dimulai
 
-1. ✅ Perbaiki dasar: Update koneksi.php ke PDO + DB benar
-2. ~~Import/update DB schema~~ (manual via phpMyAdmin)
-3. ✅ Lengkapi & secure CRUD tasks (full fields, filter role-specific, UI)
-4. ✅ Tambah manajemen kategori (task/kategori.php + nav link)
-5. Implementasi filter tugas per role
-6. ✅ Tingkatkan dashboard siswa (jadwal, stat belajar)
-7. ✅ Tingkatkan dashboard karyawan (prioritas, stat produktivitas)
-
-9. ✅ Buat landing index.php
-10. UI/JS enhancements (charts, responsif)
-11. Testing & finalisasi
-
-**Progress: 5/11 selesai**
-
-
-
+### Langkah-langkah:
+- [x] 1. Prototype task/index_new.php OK dengan layout + improved UI
+- [ ] 2. Edit task/tambah.php: Sama seperti langkah 1
+- [ ] 3. Edit task/edit.php: Sama seperti langkah 1
+- [ ] 4. Edit task/kategori.php: Sama seperti langkah 1
+- [ ] 5. Edit task/selesai.php: Sama seperti langkah 1  
+- [ ] 6. Edit task/hapus.php: Sama seperti langkah 1
+- [ ] 7. Test semua halaman task: Verifikasi sidebar, warna sama, responsif
+- [ ] 8. Complete task

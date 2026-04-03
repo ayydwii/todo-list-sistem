@@ -21,6 +21,8 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/app.js"></script>
+
 
     <style>
         
@@ -28,8 +30,14 @@ if (!isset($_SESSION['user'])) {
 </head>
 <body>
 
+<!-- HAMBURGER BUTTON (TOP LEFT FIXED) -->
+<button class="hamburger" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+</button>
+
 <!-- SIDEBAR -->
-<div class="sidebar p-3">
+<div class="sidebar p-3" id="sidebar">
+
     <h4 class="text-center mb-4">Todo Premium</h4>
 
     <a href="#"><i class="fas fa-home"></i> Dashboard</a>
@@ -47,9 +55,13 @@ if (!isset($_SESSION['user'])) {
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-light bg-white shadow-sm mb-4 rounded">
-    <div class="container-fluid">
-        <span>
+<div class="container-fluid">
+        <button class="navbar-toggler me-3 d-md-none" type="button" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <span class="navbar-brand mb-0 h1">
             Halo, <?= $_SESSION['user']['name'] ?? 'User'; ?> 👋
         </span>
     </div>
 </nav>
+
